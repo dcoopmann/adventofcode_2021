@@ -9,6 +9,13 @@ def import_measurement(file) -> typing.List[int]:
     
     return measurement
 
+def import_commands(file) -> list:
+    commands = []
+    with open(file) as f:
+        for line in f:
+            commands.append(line.split())
+    return commands
+
 def sonar_sweep(depth_measurement:typing.List[int])-> int:
     depth_increased_times = 0
     current_depth_window = depth_measurement[0] + depth_measurement[1] + depth_measurement[2]
@@ -31,6 +38,19 @@ def sonar_sweep(depth_measurement:typing.List[int])-> int:
 
     return depth_increased_times
 
+def calculate_navigation(commands: list) -> int:
+    x = 0
+    y = 0
+
+    for command in commands:
+        if command[0] == "up":
+            y -= int(command[1])
+        elif command[0] == "down":
+            y += int(command[1])
+        elif command[0] == "forward":
+            x += int(command[1])
+
+    return (x*y)
+
 if __name__ == "__main__":
-    input = import_measurement("sonar_measurement.txt")
-    print(sonar_sweep(input))
+    print(calculate_navigation(import_commands("navigation_commands.txt")))
