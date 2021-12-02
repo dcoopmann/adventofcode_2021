@@ -41,14 +41,16 @@ def sonar_sweep(depth_measurement:typing.List[int])-> int:
 def calculate_navigation(commands: list) -> int:
     x = 0
     y = 0
+    aim = 0
 
     for command in commands:
         if command[0] == "up":
-            y -= int(command[1])
+            aim -= int(command[1])
         elif command[0] == "down":
-            y += int(command[1])
+            aim += int(command[1])
         elif command[0] == "forward":
             x += int(command[1])
+            y += int(command[1]) * aim
 
     return (x*y)
 
