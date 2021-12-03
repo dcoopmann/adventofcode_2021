@@ -10,3 +10,6 @@ def test_pytest():
 
 def test_navigation():
     assert submarine.calculate_navigation(submarine.import_commands("test_navigation_commands.txt") ) == 900
+
+def test_diagnostics():
+    assert submarine.diagnostics(submarine.import_diag_report("test_diag_report.txt"))

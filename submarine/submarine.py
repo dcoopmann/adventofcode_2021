@@ -16,6 +16,13 @@ def import_commands(file) -> list:
             commands.append(line.split())
     return commands
 
+def import_diag_report(file) -> typing.List[list[int]]:
+    report = []
+    with open(file) as f:
+        for line in f:
+            report.append(list(line))
+    return report
+
 def sonar_sweep(depth_measurement:typing.List[int])-> int:
     depth_increased_times = 0
     current_depth_window = depth_measurement[0] + depth_measurement[1] + depth_measurement[2]
@@ -54,5 +61,37 @@ def calculate_navigation(commands: list) -> int:
 
     return (x*y)
 
+def preprocess_diagnostics(report : typing.List[list[int]]):
+    gamma_rate = b""
+    epsilon_rate = b""
+
+    bitlength = len(report[0]) - 1
+    
+    for i in range(0,bitlength):
+        gamma_bit = 0
+        for line in report:
+            if line[i] == "1":
+                gamma_bit += 1
+            else:
+                gamma_bit -= 1
+        
+        if gamma_bit >= 1:
+            gamma_rate += b"1"
+        else:
+            gamma_rate += b"0"
+
+    # decimal_gamma = int(gamma_rate, 2)
+    epsilon_rate = gamma_rate.replace(b"1",b"2").replace(b"0",b"1").replace(b"2",b"0")
+    # decimal_epsilon = int(epsilon_rate, 2)
+    
+    return [gamma_rate, epsilon_rate]
+
+def diag_power_consumption(power_data):
+    pd = preprocess_diagnostics(power_data)
+    return int(pd[0], 2) * int(pd[1], 2)
+
+
+
 if __name__ == "__main__":
-    print(calculate_navigation(import_commands("navigation_commands.txt")))
+    # print(calculate_navigation(import_commands("navigation_commands.txt")))
+    print(diag_power_consumption(import_diag_report("diag_report.txt")))
