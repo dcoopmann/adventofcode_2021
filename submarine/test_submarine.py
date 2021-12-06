@@ -11,5 +11,8 @@ def test_pytest():
 def test_navigation():
     assert submarine.calculate_navigation(submarine.import_commands("test_navigation_commands.txt") ) == 900
 
-def test_diagnostics():
-    assert submarine.diagnostics(submarine.import_diag_report("test_diag_report.txt"))
+def test_power_diagnostics():
+    assert submarine.diag_power_consumption(submarine.import_diag_report("test_diag_report.txt")) == 198
+
+def test_diag_live_support():
+    assert submarine.diag_live_support(submarine.import_diag_report("test_diag_report.txt")) == 230
