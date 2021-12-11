@@ -9,6 +9,9 @@ pytest = "*"
 [requires]
 python_version = "3.9"
 
+[packages]
+numpy = "*"
+
 [packages.e1839a8]
 path = "."
 editable = true
